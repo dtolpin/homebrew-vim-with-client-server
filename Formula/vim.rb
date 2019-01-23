@@ -55,7 +55,8 @@ class Vim < Formula
                           "--with-x",
 						  "--with-client-server",
                           "--enable-luainterp",
-                          "--with-lua-prefix=#{Formula["lua"].opt_prefix}"
+                          "--with-lua-prefix=#{Formula["lua"].opt_prefix}",
+						  "--with-features=big"
     system "make"
     # Parallel install could miss some symlinks
     # https://github.com/vim/vim/issues/1031
