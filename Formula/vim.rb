@@ -2,23 +2,23 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v8.1.0750.tar.gz"
-  sha256 "3ae7deca957d48a61b72bd34c6ee9869583a4978bc27367b023a1cae506899be"
-  revision 1
+  url "https://github.com/vim/vim/archive/v8.2.0800.tar.gz"
+  sha256 "2a3372a6402f7ce95f77e8bc6779ea83206a3a02a2ac8a8319541b72d1ee1224"
   head "https://github.com/vim/vim.git"
 
   bottle do
-    sha256 "20fff1c4f9d73a661fa3cf025a195ef3b79e35806a7c2ad8f3e680ea11d9ea08" => :mojave
-    sha256 "3b91007ce2e37f49f89da9391d0afdcd610163709c72750a357f7ab9ff1667ff" => :high_sierra
-    sha256 "1fdf0174ad81222ae23b4a58057199e97bbc044cb0ea16c5b6d7f7e183f3210c" => :sierra
+    sha256 "a00bb13c6654cb04ff23ba9300c38237b223796df2019fb6df59427bbc073210" => :catalina
+    sha256 "2dc838df291d2687e47b08cb2e1db429a137f93ebc16b42edbffd5b259aa7469" => :mojave
+    sha256 "47fbec0581c0621f12c820b9e67e605c50d506f7421e062723c14458c1cfbd4d" => :high_sierra
   end
 
   depends_on "gettext"
   depends_on "lua"
   depends_on "perl"
-  depends_on "python"
+  depends_on "python@3.8"
   depends_on "ruby"
-  depends_on :x11
+
+  uses_from_macos "ncurses"
 
   conflicts_with "ex-vi",
     :because => "vim and ex-vi both install bin/ex and bin/view"
@@ -27,7 +27,7 @@ class Vim < Formula
     :because => "vim and macvim both install vi* binaries"
 
   def install
-    ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin"
+    ENV.prepend_path "PATH", Formula["python@3.8"].opt_libexec/"bin"
 
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
@@ -55,7 +55,7 @@ class Vim < Formula
                           "--with-x",
 						  "--with-client-server",
                           "--enable-luainterp",
-                          "--with-lua-prefix=#{Formula["lua"].opt_prefix}",
+                          "--with-lua-prefix=#{Formula["lua"].opt_prefix}"
 						  "--with-features=big"
     system "make"
     # Parallel install could miss some symlinks
